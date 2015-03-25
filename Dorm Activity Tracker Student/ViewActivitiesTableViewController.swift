@@ -61,6 +61,11 @@ class ViewActivitiesTableViewController: UITableViewController {
         let currentActivity = self.activities[indexPath.row]
         cell.textLabel?.text = currentActivity.name
         cell.detailTextLabel?.text = currentActivity.eventDate
+        if currentActivity.maximum > 0 {
+            cell.backgroundColor = UIColor.greenColor()
+        } else {
+            cell.backgroundColor = UIColor.redColor()
+        }
         
         return cell
     }

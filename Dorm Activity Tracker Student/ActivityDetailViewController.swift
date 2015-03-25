@@ -48,8 +48,7 @@ class ActivityDetailViewController: UIViewController {
                 
                     var studentRecord: Student
                     studentRecord = student[0] as Student
-                    println(studentRecord.fullName)
-                    self.activity.participantsSignedUp.append(studentRecord.fullName as String)
+                    self.activity.participantsSignedUp.append(studentRecord.objectId)
                 
                     studentRecord.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
                         if (error == nil) {
