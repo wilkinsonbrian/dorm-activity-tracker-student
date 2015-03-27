@@ -33,4 +33,5 @@ class Student: BAAObject {
         
         return "document/students"
     }
+    
 }

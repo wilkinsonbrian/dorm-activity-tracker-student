@@ -84,6 +84,50 @@ class ActivityDetailViewController: UIViewController {
         }
         
     }
+    
+    @IBAction func cancelRegistration(sender: UIButton) {
+        var currentUser = BAAUser()
+        
+        BAAUser.loadCurrentUserWithCompletion({(object:AnyObject!, error: NSError!) -> () in
+            
+            currentUser = object as BAAUser
+            
+            let parameters = ["where": "userName='\(currentUser.username())'"]
+            Student.getObjectsWithParams(parameters, {(student: [AnyObject]!, error:NSError!) -> () in
+                
+                var studentRecord: Student
+                studentRecord = student[0] as Student
+                
+                for var x = 0; x < self.activity.participantsSignedUp.count; ++x {
+                    if self.activity.participantsSignedUp[x] == studentRecord.objectId {
+                        self.activity.participantsSignedUp.removeAtIndex(x)
+                    }
+                }
+                
+                studentRecord.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
+                    if (error == nil) {
+                        println("Student record updated")
+                    } else {
+                        println("Error updating student")
+                    }
+                    self.activity.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
+                        if (error == nil) {
+                            let alertController = UIAlertController(title: "Registration", message: "You have canceled your registration for this activity", preferredStyle: .Alert)
+                            
+                            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                            alertController.addAction(defaultAction)
+                            
+                            self.presentViewController(alertController, animated: true, completion: nil)
+                        } else {
+                            println("So much fail")
+                        }
+                    })
+                })
+            })
+        })
+        
+        activity.maximum++
+    }
     /*
     // MARK: - Navigation
 
