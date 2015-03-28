@@ -14,6 +14,9 @@ class ActivityDetailViewController: UIViewController {
     @IBOutlet weak var activityDate: UILabel!
     @IBOutlet weak var activityDescription: UILabel!
     @IBOutlet weak var remainingSpots: UILabel!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var cancelRegistrationButton: UIButton!
+    
     var activity = Activity()
     
     var name: String = ""
@@ -24,8 +27,27 @@ class ActivityDetailViewController: UIViewController {
         activityDescription.text = activity.activityDescription
         remainingSpots.text = String(activity.maximum)
         activityDate.text = activity.eventDate
+        registerButton.enabled = true
+        cancelRegistrationButton.enabled = false
 
-        // Do any additional setup after loading the view.
+        var currentUser = BAAUser()
+        
+        BAAUser.loadCurrentUserWithCompletion({(object:AnyObject!, error:NSError!) -> () in
+            currentUser = object as BAAUser
+            let parameters = ["where": "userName='\(currentUser.username())'"]
+            Student.getObjectsWithParams(parameters, {(student:[AnyObject]!, error:NSError!) -> () in
+                
+                var studentRecord: Student
+                studentRecord = student[0] as Student
+                
+                for studentID in self.activity.participantsSignedUp {
+                    if studentID == studentRecord.objectId {
+                        self.registerButton.enabled = false
+                        self.cancelRegistrationButton.enabled = true
+                    }
+                }
+            })
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +95,8 @@ class ActivityDetailViewController: UIViewController {
             })
             
             activity.maximum--
+            registerButton.enabled = false
+            cancelRegistrationButton.enabled = true
             
         } else {
             let alertController = UIAlertController(title: "Activity Full", message: "There are no spots left for this activity", preferredStyle: .Alert)
@@ -125,7 +149,8 @@ class ActivityDetailViewController: UIViewController {
                 })
             })
         })
-        
+        registerButton.enabled = true
+        cancelRegistrationButton.enabled = false
         activity.maximum++
     }
     /*

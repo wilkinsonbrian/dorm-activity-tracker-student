@@ -137,6 +137,8 @@
                         <outlet property="activityDate" destination="O6N-Ap-dgR" id="2ma-jq-qzA"/>
                         <outlet property="activityDescription" destination="mTu-xx-Bxc" id="sOb-gk-Lca"/>
                         <outlet property="activityTitle" destination="tFf-wQ-LfN" id="ymc-2Z-WmH"/>
+                        <outlet property="cancelRegistrationButton" destination="TPs-NJ-uYg" id="TPC-QS-dWL"/>
+                        <outlet property="registerButton" destination="Xj4-2a-1UR" id="a2q-UI-ikb"/>
                         <outlet property="remainingSpots" destination="hJI-XI-7Dz" id="Ebv-aK-2eD"/>
                     </connections>
                 </viewController>
