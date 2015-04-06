@@ -72,12 +72,6 @@ class ActivityDetailViewController: UIViewController {
                     studentRecord = student[0] as Student
                     self.activity.participantsSignedUp.append(studentRecord.objectId)
                 
-                    studentRecord.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
-                        if (error == nil) {
-                            println("Student record updated")
-                        } else {
-                            println("Error updating student")
-                        }
                         self.activity.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
                             if (error == nil) {
                                 let alertController = UIAlertController(title: "Registration", message: "You have registered for this activity", preferredStyle: .Alert)
@@ -89,7 +83,6 @@ class ActivityDetailViewController: UIViewController {
                             } else {
                                 println("So much fail")
                             }
-                        })
                     })
                 })
             })
@@ -127,25 +120,17 @@ class ActivityDetailViewController: UIViewController {
                         self.activity.participantsSignedUp.removeAtIndex(x)
                     }
                 }
-                
-                studentRecord.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
+                self.activity.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
                     if (error == nil) {
-                        println("Student record updated")
+                        let alertController = UIAlertController(title: "Registration", message: "You have canceled your registration for this activity", preferredStyle: .Alert)
+                        
+                        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        alertController.addAction(defaultAction)
+                        
+                        self.presentViewController(alertController, animated: true, completion: nil)
                     } else {
-                        println("Error updating student")
+                        println("So much fail")
                     }
-                    self.activity.saveObjectWithCompletion({(object:AnyObject!, error: NSError!) -> () in
-                        if (error == nil) {
-                            let alertController = UIAlertController(title: "Registration", message: "You have canceled your registration for this activity", preferredStyle: .Alert)
-                            
-                            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                            alertController.addAction(defaultAction)
-                            
-                            self.presentViewController(alertController, animated: true, completion: nil)
-                        } else {
-                            println("So much fail")
-                        }
-                    })
                 })
             })
         })

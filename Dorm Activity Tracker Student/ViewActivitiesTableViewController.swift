@@ -70,6 +70,19 @@ class ViewActivitiesTableViewController: UITableViewController {
         return cell
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue,
+        sender: AnyObject?) {
+            
+            if segue.identifier == "showActivityDetails" {
+                let detailViewController = segue.destinationViewController
+                    as ActivityDetailViewController
+                
+                let myIndexPath = self.tableView.indexPathForSelectedRow()
+                let row = myIndexPath?.row
+                detailViewController.activity = activities[row!]
+            }
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -105,17 +118,6 @@ class ViewActivitiesTableViewController: UITableViewController {
     }
     */
 
-    override func prepareForSegue(segue: UIStoryboardSegue,
-        sender: AnyObject?) {
-            
-            if segue.identifier == "showActivityDetails" {
-                let detailViewController = segue.destinationViewController
-                    as ActivityDetailViewController
-                
-                let myIndexPath = self.tableView.indexPathForSelectedRow()
-                let row = myIndexPath?.row
-                detailViewController.activity = activities[row!]
-            }
-    }
+    
 
 }
